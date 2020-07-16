@@ -35,5 +35,12 @@ dependencies {
     implementation 'com.android.volley:volley:1.1.1'
     //gson
     implementation 'com.google.code.gson:gson:2.8.6'
+    //ViewModel
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.2.0'
+    //Cardview
+    implementation "androidx.cardview:cardview:1.0.0"
+    //Merlin Library
+    implementation 'com.novoda:merlin:1.2.0'
+
 
 }

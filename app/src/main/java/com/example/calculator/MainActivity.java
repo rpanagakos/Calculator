@@ -2,13 +2,20 @@ package com.example.calculator;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -19,10 +26,17 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.novoda.merlin.Bindable;
+import com.novoda.merlin.Connectable;
+import com.novoda.merlin.Disconnectable;
+import com.novoda.merlin.Merlin;
+import com.novoda.merlin.MerlinsBeard;
+import com.novoda.merlin.NetworkStatus;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,60 +44,81 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Spinner first, second;
-    private  HashMap<String, Double> list = new HashMap<>();
-    List<String> listOfKeys = new ArrayList<>();
-
-
+    private AutoCompleteTextView first, second;
+    private HashMap<String, Double> list = new HashMap<>();
+    private RequestData viewModel;
+    private Button convert;
+    private EditText firstCurrency;
+    private TextView secondTxtCurrency;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        viewModel = new ViewModelProvider(this).get(RequestData.class);
     }
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        first = findViewById(R.id.firstConversion);
         second = findViewById(R.id.secondConversion);
-        requestData(first);
-        Log.d("RELIST2222", listOfKeys.toString());
+        convert = findViewById(R.id.convertButton);
+        firstCurrency = findViewById(R.id.txtFirstConverstion);
+        secondTxtCurrency = findViewById(R.id.txtSecondConverstion);
+        first = findViewById(R.id.firstConversion);
+        final MerlinsBeard merlin = new MerlinsBeard.Builder().build(MainActivity.this);
 
-
-    }
-
-    private void requestData(final Spinner spinner){
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://data.fixer.io/api/latest?access_key=0b4ab42fb72c68017105b6e43e650700&format=1";
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
+        viewModel.getLiveData().observe(this, new Observer<HashMap<String, Double>>() {
+            @Override
+            public void onChanged(final HashMap<String, Double> stringDoubleHashMap) {
+                Log.i("MAP", "SomeText: " + new Gson().toJson(stringDoubleHashMap));
+                takeKeys(stringDoubleHashMap, second, first);
+                convert.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObj = new JSONObject(response);
-                            JSONObject result = jsonObj.getJSONObject("rates");
-                            list = new Gson().fromJson(String.valueOf(result), new TypeToken<HashMap<String, Double>>() {}.getType());
-                            Log.i("MAP", "SomeText: " + new Gson().toJson(list));
+                    public void onClick(View v) {
+                        if (firstCurrency.getText().toString().isEmpty()) {
+                            Toast.makeText(MainActivity.this, "Enter correct amount of money", Toast.LENGTH_SHORT).show();
+                        } else {
+                            if (second.getText().toString().isEmpty() || first.getText().toString().isEmpty()) {
+                                Toast.makeText(MainActivity.this, "Enter correct currency", Toast.LENGTH_SHORT).show();
+                            } else {
+                                if (stringDoubleHashMap.containsKey(first.getText().toString().replaceAll("\\s+", ""))) {
+                                    if (stringDoubleHashMap.containsKey(second.getText().toString().replaceAll("\\s+", ""))) {
+                                        try {
+                                            double euro = Double.parseDouble(firstCurrency.getText().toString()) / stringDoubleHashMap.get(first.getText().toString());
+                                            double currencyInput = stringDoubleHashMap.get(second.getText().toString());
+                                            currencyInput = euro * currencyInput;
+                                            secondTxtCurrency.setText(new DecimalFormat("##.##").format(currencyInput));
+                                        } catch (NullPointerException e) {
+                                            Toast.makeText(MainActivity.this, "Our developers are monkeys try again", Toast.LENGTH_LONG).show();
+                                        }
 
-                            listOfKeys = new ArrayList<String>(list.keySet());
-                            Log.d("RELIST", listOfKeys.toString());
-                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, listOfKeys);
-                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                            spinner.setAdapter(adapter);
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            //Log.i("MAP", e.toString());
-
+                                    } else {
+                                        Toast.makeText(MainActivity.this, "Incorrect 'To' currency", Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    Toast.makeText(MainActivity.this, "Incorrect 'From' currency", Toast.LENGTH_SHORT).show();
+                                }
+                            }
                         }
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+                });
             }
         });
-        queue.add(stringRequest);
+        RequestQueue queue = Volley.newRequestQueue(this);
+        viewModel.runRequests(queue);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    private void takeKeys(HashMap<String, Double> map, AutoCompleteTextView first, AutoCompleteTextView second) {
+        List<String> listOfKeys = new ArrayList<String>(map.keySet());
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.spinner_item, listOfKeys);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        first.setAdapter(adapter);
+        second.setAdapter(adapter);
     }
 }

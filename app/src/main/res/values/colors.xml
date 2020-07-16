@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorPrimary">#81FFFFFF</color>
+    <color name="colorPrimaryDark">#81FFFFFF</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="oxford_blue">#011936</color>
+    <color name="prussian_blue">#022E64</color>
+    <color name="green">#5CD699</color>
+    <color name="dodger_blue">#4B9AFB</color>
+    <color name="light_steel_blue">#B2C2E6</color>
+    <color name="cornflower_blue">#5C8DFF</color>
+    <color name="lavender_blue">#C2D4FF</color>
 </resources>
