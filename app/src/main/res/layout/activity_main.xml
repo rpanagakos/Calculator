@@ -5,172 +5,175 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFF">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        tools:context=".MainActivity">
-
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout"
+            android:id="@+id/transactionLayout"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:background="@drawable/layout_gradient"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            tools:context=".MainActivity">
 
-            <ImageView
-                android:id="@+id/logoImage"
-                android:layout_width="160dp"
-                android:layout_height="160dp"
-                android:src="@drawable/logo_transparent"
-                android:adjustViewBounds="true"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="@drawable/layout_gradient"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="32dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Being in control of your money \nprovides freedom."
-                android:textSize="16sp"
-                android:textStyle="italic"
-                android:textColor="#FFF"
-                app:layout_constraintTop_toBottomOf="@id/logoImage"
-                app:layout_constraintStart_toStartOf="@id/logoImage"
-                app:layout_constraintEnd_toEndOf="@id/logoImage"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintEnd_toEndOf="parent">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="32dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/titleCard"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Convert Operation"
-                    android:textColor="@color/oxford_blue"
-                    android:textSize="22sp"
-                    android:textStyle="bold"
-                    android:layout_margin="16dp"
-                    app:layout_constraintStart_toStartOf="parent"
+                <ImageView
+                    android:id="@+id/logoImage"
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:src="@drawable/logo_transparent"
+                    android:adjustViewBounds="true"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-                <View
-                    android:id="@+id/view"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#A3A2A2"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/titleCard"
-                    android:layout_marginTop="16dp"/>
+                    android:layout_marginTop="32dp"/>
                 <TextView
-                    android:id="@+id/fromText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/view"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:text="From:"
-                    android:textColor="@color/light_steel_blue"
-                    android:textSize="18sp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginStart="16dp"/>
-                <AutoCompleteTextView
-                    android:id="@+id/firstConversion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="22sp"
-                    android:hint="EUR"
-                    android:background="@null"
-                    android:textColor="@color/oxford_blue"
-                    android:layout_marginStart="8dp"
-                    app:layout_constraintStart_toEndOf="@id/fromText"
-                    app:layout_constraintTop_toTopOf="@id/fromText"
-                    app:layout_constraintBottom_toBottomOf="@id/fromText"/>
-
-
-                <AutoCompleteTextView
-                    android:id="@+id/secondConversion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="22sp"
-                    android:hint="USD"
-                    android:background="@null"
-                    android:layout_marginEnd="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/firstConversion"
-                    app:layout_constraintBottom_toBottomOf="@id/firstConversion"
-                    app:layout_constraintTop_toBottomOf="@id/view"/>
-
-                <TextView
-                    android:id="@+id/toText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toStartOf="@id/secondConversion"
-                    app:layout_constraintTop_toTopOf="@id/secondConversion"
-                    app:layout_constraintBottom_toBottomOf="@id/secondConversion"
-                    android:text="To:"
-                    android:textSize="18sp"
-                    android:layout_marginEnd="8dp"
-                    android:textColor="@color/light_steel_blue"/>
-                <EditText
-                    android:id="@+id/txtFirstConverstion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="0.00"
-                    android:background="@null"
-                    android:inputType="numberDecimal"
-                    android:textColor="@color/dodger_blue"
-                    android:textSize="24sp"
-                    app:layout_constraintTop_toBottomOf="@+id/fromText"
-                    app:layout_constraintStart_toStartOf="@id/fromText"
-                    app:layout_constraintEnd_toEndOf="@id/firstConversion"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="8dp"/>
-                <TextView
-                    android:id="@+id/txtSecondConverstion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0.00"
-                    android:textSize="24sp"
-                    android:textColor="@color/green"
-                    app:layout_constraintTop_toBottomOf="@id/toText"
-                    app:layout_constraintStart_toStartOf="@id/toText"
-                    app:layout_constraintEnd_toEndOf="@id/secondConversion"
-                    android:layout_marginTop="16dp"/>
-                <Button
-                    android:id="@+id/convertButton"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:text="convert"
-                    android:textColor="#fff"
-                    android:background="@drawable/button_radius"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/txtSecondConverstion"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginTop="32dp"
-                    android:layout_marginBottom="16dp"/>
-
-
+                    android:gravity="center"
+                    android:text="Being in control of your money \nprovides freedom."
+                    android:textSize="16sp"
+                    android:textStyle="italic"
+                    android:textColor="#FFF"
+                    app:layout_constraintTop_toBottomOf="@id/logoImage"
+                    app:layout_constraintStart_toStartOf="@id/logoImage"
+                    app:layout_constraintEnd_toEndOf="@id/logoImage"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/titleCard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Convert Operation"
+                        android:textColor="@color/oxford_blue"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:layout_margin="16dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+                    <View
+                        android:id="@+id/view"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#A3A2A2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/titleCard"
+                        android:layout_marginTop="16dp"/>
+                    <TextView
+                        android:id="@+id/fromText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/view"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:text="From:"
+                        android:textColor="@color/light_steel_blue"
+                        android:textSize="18sp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginStart="16dp"/>
+                    <AutoCompleteTextView
+                        android:id="@+id/firstConversion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="22sp"
+                        android:hint="EUR"
+                        android:background="@null"
+                        android:textColor="@color/oxford_blue"
+                        android:layout_marginStart="8dp"
+                        app:layout_constraintStart_toEndOf="@id/fromText"
+                        app:layout_constraintTop_toTopOf="@id/fromText"
+                        app:layout_constraintBottom_toBottomOf="@id/fromText"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <AutoCompleteTextView
+                        android:id="@+id/secondConversion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="22sp"
+                        android:hint="USD"
+                        android:background="@null"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/firstConversion"
+                        app:layout_constraintBottom_toBottomOf="@id/firstConversion"
+                        app:layout_constraintTop_toBottomOf="@id/view"/>
+
+                    <TextView
+                        android:id="@+id/toText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toStartOf="@id/secondConversion"
+                        app:layout_constraintTop_toTopOf="@id/secondConversion"
+                        app:layout_constraintBottom_toBottomOf="@id/secondConversion"
+                        android:text="To:"
+                        android:textSize="18sp"
+                        android:layout_marginEnd="8dp"
+                        android:textColor="@color/light_steel_blue"/>
+                    <EditText
+                        android:id="@+id/txtFirstConverstion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="0.00"
+                        android:background="@null"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/dodger_blue"
+                        android:textSize="24sp"
+                        app:layout_constraintTop_toBottomOf="@+id/fromText"
+                        app:layout_constraintStart_toStartOf="@id/fromText"
+                        app:layout_constraintEnd_toEndOf="@id/firstConversion"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="8dp"/>
+                    <TextView
+                        android:id="@+id/txtSecondConverstion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0.00"
+                        android:textSize="24sp"
+                        android:textColor="@color/green"
+                        app:layout_constraintTop_toBottomOf="@id/toText"
+                        app:layout_constraintStart_toStartOf="@id/toText"
+                        app:layout_constraintEnd_toEndOf="@id/secondConversion"
+                        android:layout_marginTop="16dp"/>
+                    <Button
+                        android:id="@+id/convertButton"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:text="convert"
+                        android:textColor="#fff"
+                        android:background="@drawable/button_radius"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txtSecondConverstion"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginTop="32dp"
+                        android:layout_marginBottom="16dp"/>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 </ScrollView>

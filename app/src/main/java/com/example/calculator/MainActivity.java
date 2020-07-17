@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -73,40 +74,48 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(final HashMap<String, Double> stringDoubleHashMap) {
                 Log.i("MAP", "SomeText: " + new Gson().toJson(stringDoubleHashMap));
                 takeKeys(stringDoubleHashMap, second, first);
-                convert.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (firstCurrency.getText().toString().isEmpty()) {
-                            Toast.makeText(MainActivity.this, "Enter correct amount of money", Toast.LENGTH_SHORT).show();
-                        } else {
-                            if (second.getText().toString().isEmpty() || first.getText().toString().isEmpty()) {
-                                Toast.makeText(MainActivity.this, "Enter correct currency", Toast.LENGTH_SHORT).show();
-                            } else {
-                                if (stringDoubleHashMap.containsKey(first.getText().toString().replaceAll("\\s+", ""))) {
-                                    if (stringDoubleHashMap.containsKey(second.getText().toString().replaceAll("\\s+", ""))) {
-                                        try {
-                                            double euro = Double.parseDouble(firstCurrency.getText().toString()) / stringDoubleHashMap.get(first.getText().toString());
-                                            double currencyInput = stringDoubleHashMap.get(second.getText().toString());
-                                            currencyInput = euro * currencyInput;
-                                            secondTxtCurrency.setText(new DecimalFormat("##.##").format(currencyInput));
-                                        } catch (NullPointerException e) {
-                                            Toast.makeText(MainActivity.this, "Our developers are monkeys try again", Toast.LENGTH_LONG).show();
-                                        }
 
-                                    } else {
-                                        Toast.makeText(MainActivity.this, "Incorrect 'To' currency", Toast.LENGTH_SHORT).show();
-                                    }
-                                } else {
-                                    Toast.makeText(MainActivity.this, "Incorrect 'From' currency", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        }
-                    }
-                });
             }
         });
         RequestQueue queue = Volley.newRequestQueue(this);
         viewModel.runRequests(queue);
+
+        convert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    viewModel.getLiveData().observe(MainActivity.this, new Observer<HashMap<String, Double>>() {
+                        @Override
+                        public void onChanged(HashMap<String, Double> stringDoubleHashMap) {
+                            if (firstCurrency.getText().toString().isEmpty()) {
+                                Toast.makeText(MainActivity.this, "Enter correct amount of money", Toast.LENGTH_SHORT).show();
+                            } else {
+                                if (second.getText().toString().isEmpty() || first.getText().toString().isEmpty()) {
+                                    Toast.makeText(MainActivity.this, "Enter correct currency", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    if (stringDoubleHashMap.containsKey(first.getText().toString().replaceAll("\\s+", ""))) {
+                                        if (stringDoubleHashMap.containsKey(second.getText().toString().replaceAll("\\s+", ""))) {
+                                            try {
+                                                double euro = Double.parseDouble(firstCurrency.getText().toString()) / stringDoubleHashMap.get(first.getText().toString());
+                                                double currencyInput = stringDoubleHashMap.get(second.getText().toString());
+                                                currencyInput = euro * currencyInput;
+                                                secondTxtCurrency.setText(new DecimalFormat("##.##").format(currencyInput));
+                                            } catch (NullPointerException e) {
+                                                Toast.makeText(MainActivity.this, "Our developers are monkeys try again", Toast.LENGTH_LONG).show();
+                                                e.printStackTrace();
+                                            }
+
+                                        } else {
+                                            Toast.makeText(MainActivity.this, "Incorrect 'To' currency", Toast.LENGTH_SHORT).show();
+                                        }
+                                    } else {
+                                        Toast.makeText(MainActivity.this, "Incorrect 'From' currency", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }
+                        }
+                    });
+            }
+        });
     }
 
     @Override
@@ -121,4 +130,5 @@ public class MainActivity extends AppCompatActivity {
         first.setAdapter(adapter);
         second.setAdapter(adapter);
     }
+
 }
