@@ -89,37 +89,37 @@ public class MainActivity extends AppCompatActivity {
         convert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    viewModel.getLiveData().observe(MainActivity.this, new Observer<HashMap<String, Double>>() {
-                        @Override
-                        public void onChanged(HashMap<String, Double> stringDoubleHashMap) {
-                            if (firstCurrency.getText().toString().isEmpty()) {
-                                Toast.makeText(MainActivity.this, "Enter correct amount of money", Toast.LENGTH_SHORT).show();
+                viewModel.getLiveData().observe(MainActivity.this, new Observer<HashMap<String, Double>>() {
+                    @Override
+                    public void onChanged(HashMap<String, Double> stringDoubleHashMap) {
+                        if (firstCurrency.getText().toString().isEmpty()) {
+                            Toast.makeText(MainActivity.this, "Enter correct amount of money", Toast.LENGTH_SHORT).show();
+                        } else {
+                            if (second.getText().toString().isEmpty() || first.getText().toString().isEmpty()) {
+                                Toast.makeText(MainActivity.this, "Enter correct currency", Toast.LENGTH_SHORT).show();
                             } else {
-                                if (second.getText().toString().isEmpty() || first.getText().toString().isEmpty()) {
-                                    Toast.makeText(MainActivity.this, "Enter correct currency", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    if (stringDoubleHashMap.containsKey(first.getText().toString().replaceAll("\\s+", ""))) {
-                                        if (stringDoubleHashMap.containsKey(second.getText().toString().replaceAll("\\s+", ""))) {
-                                            try {
-                                                double euro = Double.parseDouble(firstCurrency.getText().toString()) / stringDoubleHashMap.get(first.getText().toString());
-                                                double currencyInput = stringDoubleHashMap.get(second.getText().toString());
-                                                currencyInput = euro * currencyInput;
-                                                secondTxtCurrency.setText(new DecimalFormat("##.##").format(currencyInput));
-                                            } catch (NullPointerException e) {
-                                                Toast.makeText(MainActivity.this, "Our developers are monkeys try again", Toast.LENGTH_LONG).show();
-                                                e.printStackTrace();
-                                            }
-
-                                        } else {
-                                            Toast.makeText(MainActivity.this, "Incorrect 'To' currency", Toast.LENGTH_SHORT).show();
+                                if (stringDoubleHashMap.containsKey(first.getText().toString().replaceAll("\\s+", ""))) {
+                                    if (stringDoubleHashMap.containsKey(second.getText().toString().replaceAll("\\s+", ""))) {
+                                        try {
+                                            double euro = Double.parseDouble(firstCurrency.getText().toString()) / stringDoubleHashMap.get(first.getText().toString());
+                                            double currencyInput = stringDoubleHashMap.get(second.getText().toString());
+                                            currencyInput = euro * currencyInput;
+                                            secondTxtCurrency.setText(new DecimalFormat("##.##").format(currencyInput));
+                                        } catch (NullPointerException e) {
+                                            Toast.makeText(MainActivity.this, "Our developers are monkeys try again", Toast.LENGTH_LONG).show();
+                                            e.printStackTrace();
                                         }
+
                                     } else {
-                                        Toast.makeText(MainActivity.this, "Incorrect 'From' currency", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MainActivity.this, "Incorrect 'To' currency", Toast.LENGTH_SHORT).show();
                                     }
+                                } else {
+                                    Toast.makeText(MainActivity.this, "Incorrect 'From' currency", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
-                    });
+                    }
+                });
             }
         });
     }

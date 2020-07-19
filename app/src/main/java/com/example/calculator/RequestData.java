@@ -27,20 +27,23 @@ public class RequestData extends ViewModel {
     private static String URL = "http://data.fixer.io/api/latest?access_key=0b4ab42fb72c68017105b6e43e650700&format=1";
 
     private MutableLiveData<HashMap<String, Double>> liveData = new MutableLiveData<>();
-    public MutableLiveData<HashMap<String, Double>> getLiveData(){ return liveData;}
 
-    public void runRequests(RequestQueue queue){
+    public MutableLiveData<HashMap<String, Double>> getLiveData() {
+        return liveData;
+    }
+
+    public void runRequests(RequestQueue queue) {
         makeRequest(URL, queue);
     }
 
-    public  void makeRequest(final String url, RequestQueue queue){
+    public void makeRequest(final String url, RequestQueue queue) {
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         //Convert response String to JsonModel
-                        submitListData(url,response);
+                        submitListData(url, response);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -50,15 +53,16 @@ public class RequestData extends ViewModel {
         queue.add(stringRequest);
     }
 
-    private void submitListData(String url, String response)  {
-        try{
-        JSONObject jsonObj = new JSONObject(response);
-        JSONObject result = jsonObj.getJSONObject("rates");
-        HashMap<String, Double> list = new Gson().fromJson(String.valueOf(result), new TypeToken<HashMap<String, Double>>() {}.getType());
-        if (URL.equals(url)){
-            liveData.postValue(list);
-        }
-        }catch (JSONException e){
+    private void submitListData(String url, String response) {
+        try {
+            JSONObject jsonObj = new JSONObject(response);
+            JSONObject result = jsonObj.getJSONObject("rates");
+            HashMap<String, Double> list = new Gson().fromJson(String.valueOf(result), new TypeToken<HashMap<String, Double>>() {
+            }.getType());
+            if (URL.equals(url)) {
+                liveData.postValue(list);
+            }
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }

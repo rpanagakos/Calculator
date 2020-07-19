@@ -5,10 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,15 +18,17 @@ import java.text.NumberFormat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CalculatorActivity extends AppCompatActivity{
+public class CalculatorActivity extends AppCompatActivity {
 
-    @BindView(R.id.displayText) TextView calculation;
-    @BindView(R.id.resultText) TextView answer;
+    @BindView(R.id.displayText)
+    TextView calculation;
+    @BindView(R.id.resultText)
+    TextView answer;
 
-     String sAnswer = "", number_one = "", sCalculation = "", currentOperator = "";
-     double Result = 0.0, numberOne = 0.0, temp = 0.0;
-     NumberFormat numberFormat;
-     boolean dot_present = false;
+    String result = "", number = "", calculationString = "", currentOperator = "";
+    double resultDouble = 0.0, numberDouble = 0.0, temp = 0.0;
+    NumberFormat numberFormat;
+    boolean dot_present = false;
 
 
     @Override
@@ -46,94 +46,94 @@ public class CalculatorActivity extends AppCompatActivity{
     }
 
 
-    public void numberClick(View view){
+    public void numberClick(View view) {
         Button button = (Button) view;
-        sCalculation += button.getText();
-        number_one += button.getText();
-        numberOne = Double.parseDouble(number_one);
+        calculationString += button.getText();
+        number += button.getText();
+        numberDouble = Double.parseDouble(number);
         switch (currentOperator) {
             case "":
-                temp = Result + numberOne;
-                sAnswer = numberFormat.format(temp).toString();
+                temp = resultDouble + numberDouble;
+                result = numberFormat.format(temp).toString();
                 break;
             case "+":
-                temp = Result + numberOne;
-                sAnswer = numberFormat.format(temp).toString();
+                temp = resultDouble + numberDouble;
+                result = numberFormat.format(temp).toString();
                 break;
             case "-":
-                temp = Result - numberOne;
-                sAnswer = numberFormat.format(temp).toString();
+                temp = resultDouble - numberDouble;
+                result = numberFormat.format(temp).toString();
                 break;
             case "*":
-                temp = Result * numberOne;
-                sAnswer = numberFormat.format(temp).toString();
+                temp = resultDouble * numberDouble;
+                result = numberFormat.format(temp).toString();
                 break;
             case "/":
-                if (numberOne == 0.0){
+                if (numberDouble == 0.0) {
                     Toast.makeText(CalculatorActivity.this, "You cant divide with the  zero", Toast.LENGTH_SHORT).show();
                     break;
                 } else {
-                    temp = Result / numberOne;
-                    sAnswer = numberFormat.format(temp).toString();
+                    temp = resultDouble / numberDouble;
+                    result = numberFormat.format(temp).toString();
                     break;
                 }
         }
         UpdateResult();
     }
 
-    public void operatorClick(View view){
+    public void operatorClick(View view) {
         Button operator = (Button) view;
-        if (!sAnswer.equals("")) {
-                sCalculation += "\n" + operator.getText();
-                number_one = "";
-                numberOne = 0.0;
-                Result = temp;
-                temp = 0.0;
-                sAnswer = numberFormat.format(Result).toString();
-                currentOperator = operator.getText().toString();
-                UpdateResult();
-                dot_present = false;
+        if (!result.equals("")) {
+            calculationString += "\n" + operator.getText();
+            number = "";
+            numberDouble = 0.0;
+            resultDouble = temp;
+            temp = 0.0;
+            result = numberFormat.format(resultDouble).toString();
+            currentOperator = operator.getText().toString();
+            UpdateResult();
+            dot_present = false;
 
         }
     }
 
-    public void Clear(View view){
-        sAnswer = "";
-        number_one = "";
-        sCalculation = "";
+    public void Clear(View view) {
+        result = "";
+        number = "";
+        calculationString = "";
         currentOperator = "";
-        Result = 0.0;
-        numberOne = 0.0;
+        resultDouble = 0.0;
+        numberDouble = 0.0;
         temp = 0.0;
         UpdateResult();
-        answer.setText(sAnswer);
+        answer.setText(result);
         dot_present = false;
 
     }
 
-    public void UpdateResult(){
-            calculation.setText(sCalculation);
+    public void UpdateResult() {
+        calculation.setText(calculationString);
     }
 
-    public void showResult(View view){
+    public void showResult(View view) {
         answer.setVisibility(View.VISIBLE);
-        if (!sAnswer.equals("")){
-            answer.setText(sAnswer);
+        if (!result.equals("")) {
+            answer.setText(result);
         }
     }
 
-    public void dotClick(View view){
-        if (!dot_present){
-            if (number_one.length() == 0){
-                number_one ="0.";
-                sCalculation = "0.";
-                sAnswer = "0.";
+    public void dotClick(View view) {
+        if (!dot_present) {
+            if (number.length() == 0) {
+                number = "0.";
+                calculationString = "0.";
+                result = "0.";
                 dot_present = true;
                 UpdateResult();
             } else {
-                number_one += ".";
-                sCalculation += ".";
-                sAnswer += ".";
+                number += ".";
+                calculationString += ".";
+                result += ".";
                 dot_present = true;
                 UpdateResult();
             }
@@ -141,41 +141,41 @@ public class CalculatorActivity extends AppCompatActivity{
     }
 
     public void onModuloClick(View view) {
-        if (!sAnswer.equals("")) {
-            sCalculation += "% ";
+        if (!result.equals("")) {
+            calculationString += "% ";
             //value of temp will change according to the operator
             switch (currentOperator) {
                 case "":
                     temp = temp / 100;
                     break;
                 case "+":
-                    temp = Result + ((Result * numberOne) / 100);
+                    temp = resultDouble + ((resultDouble * numberDouble) / 100);
                     break;
                 case "-":
-                    temp = Result - ((Result * numberOne) / 100);
+                    temp = resultDouble - ((resultDouble * numberDouble) / 100);
                     break;
                 case "x":
-                    temp = Result * (numberOne / 100);
+                    temp = resultDouble * (numberDouble / 100);
                     break;
                 case "/":
                     try {
-                        temp = Result / (numberOne / 100);
+                        temp = resultDouble / (numberDouble / 100);
                     } catch (Exception e) {
-                        sAnswer = e.getMessage();
+                        result = e.getMessage();
                     }
                     break;
             }
-            sAnswer = numberFormat.format(temp).toString();
-            Result = temp;
+            result = numberFormat.format(temp).toString();
+            resultDouble = temp;
             //now we show the result
             UpdateResult();
 
         }
     }
 
-    public void changeActivity(View view){
+    public void changeActivity(View view) {
         MerlinsBeard merlin = new MerlinsBeard.Builder().build(CalculatorActivity.this);
-        if (merlin.isConnected()){
+        if (merlin.isConnected()) {
             Intent change = new Intent(CalculatorActivity.this, MainActivity.class);
             startActivity(change);
         } else {
