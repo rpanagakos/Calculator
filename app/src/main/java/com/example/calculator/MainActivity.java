@@ -2,6 +2,7 @@ package com.example.calculator;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -42,6 +43,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -67,7 +69,11 @@ public class MainActivity extends AppCompatActivity {
         firstCurrency = findViewById(R.id.txtFirstConverstion);
         secondTxtCurrency = findViewById(R.id.txtSecondConverstion);
         first = findViewById(R.id.firstConversion);
-        final MerlinsBeard merlin = new MerlinsBeard.Builder().build(MainActivity.this);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitle("Currency Converter");
+        toolbar.setTitleTextColor(getColor(R.color.oxford_blue));
 
         viewModel.getLiveData().observe(this, new Observer<HashMap<String, Double>>() {
             @Override
@@ -117,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
     @Override
     protected void onResume() {

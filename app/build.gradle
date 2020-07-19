@@ -43,6 +43,9 @@ dependencies {
     implementation "androidx.cardview:cardview:1.0.0"
     //Merlin Library
     implementation 'com.novoda:merlin:1.2.0'
+    //ButterKnife
+    implementation 'com.jakewharton:butterknife:10.2.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
 
 
 }

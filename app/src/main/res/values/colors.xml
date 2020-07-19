@@ -10,4 +10,5 @@
     <color name="light_steel_blue">#B2C2E6</color>
     <color name="cornflower_blue">#5C8DFF</color>
     <color name="lavender_blue">#C2D4FF</color>
+    <color name="white">#fff</color>
 </resources>
