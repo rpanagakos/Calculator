@@ -24,7 +24,7 @@ import java.util.HashMap;
 
 public class RequestData extends ViewModel {
 
-    private static String URL = "http://data.fixer.io/api/latest?access_key=0b4ab42fb72c68017105b6e43e650700&format=1";
+    private static String URL = "http://data.fixer.io/api/latest?access_key=";
 
     private MutableLiveData<HashMap<String, Double>> liveData = new MutableLiveData<>();
 
